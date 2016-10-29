@@ -72,10 +72,10 @@ public class WordpressPage {
 
         if (this.status == Status.Published) throw new Exception("Status already set");
 
-                this.status =Status.Published;
-                this.publishDate =now;
+        this.status = Status.Published;
+        this.publishDate = now;
 
-        }
+    }
 
 
     void setChild(WordpressPage page) {
@@ -110,14 +110,31 @@ public class WordpressPage {
 
     public void setStatus(Status status) {
         this.status = status;
-        if (status == Status.Published){
+        if (status == Status.Published) {
             this.publishDate = new Date();
         }
     }
 
-    public static ArrayList<WordpressPage> doSort(ArrayList<WordpressPage> page){
+    public static ArrayList<WordpressPage> doSort(ArrayList<WordpressPage> page) {
 
-        ArrayList<WordpressPage> sortedList= new ArrayList<>();
+        ArrayList<WordpressPage> sortedList = new ArrayList<>();
+
+
+        while (page.size() > 0) {
+            WordpressPage small = page.get(0);
+
+            for (int i = 0; i < page.size(); i++) {
+
+                int result = small.title.compareTo(page.get(i).title);
+
+                if (result > 0) {
+                    small = page.get(i);
+                }
+
+            }
+            page.remove(small);
+            sortedList.add(small);
+        }
 
         return sortedList;
     }
