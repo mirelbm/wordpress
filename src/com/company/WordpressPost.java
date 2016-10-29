@@ -7,14 +7,16 @@ import java.util.ArrayList;
  */
 public class WordpressPost extends WordpressPage  {
 
-     ArrayList<String> tags = new ArrayList<>();
+    static int postcount = 0;
+    ArrayList<String> tags = new ArrayList<>();
      enum Format {Standard,Aside,Image,Video,Quote,Link};
      ArrayList<String> categories = new ArrayList<>();
      Format format = Format.Image;
 
     public WordpressPost(String title, String content) {
-        super(title, content);
-
+          super();
+        postcount++;
+        id = postcount;
     }
 
 
