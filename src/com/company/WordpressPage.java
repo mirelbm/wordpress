@@ -6,7 +6,7 @@ import java.util.Date;
 enum Status {Draft, Published, PendingReview};
 
 
-public class WordpressPage {
+public class WordpressPage implements IPublish {
 
     static ArrayList<WordpressPage> wpp = new ArrayList<>();
     static int pagecount = 0;
@@ -19,7 +19,9 @@ public class WordpressPage {
     int viewCount = 4;
     WordpressPage child;
     WordpressPage parent;
-    private int id = 1;
+    public int id = 1;
+
+    public WordpressPage(){}
 
     public WordpressPage(String title, String content) {
         pagecount++;
@@ -53,14 +55,34 @@ public class WordpressPage {
         return this.id;
     }
 
-    public void publish() {
-        System.out.println(publishDate);
-        System.out.println(status);
+
+
+    @Override
+    public void unpublish() {
+
+        if(this.status == Status.Published){
+            this.status = Status.Draft;
+        }
+
+
     }
+
+    @Override
+    public boolean isPublished() {
+
+        return status == Status.Published;
+    }
+
 
     public void setPendingreview() {
         this.status = Status.PendingReview;
         this.wpp.add(this);
+    }
+
+    public void publish() {
+        status = Status.Published;
+        System.out.println(publishDate);
+        System.out.println(status);
     }
 
     public void publish(int hours) {
@@ -72,10 +94,10 @@ public class WordpressPage {
 
         if (this.status == Status.Published) throw new Exception("Status already set");
 
-                this.status =Status.Published;
-                this.publishDate =now;
+        this.status = Status.Published;
+        this.publishDate = now;
 
-        }
+    }
 
 
     void setChild(WordpressPage page) {
@@ -110,14 +132,31 @@ public class WordpressPage {
 
     public void setStatus(Status status) {
         this.status = status;
-        if (status == Status.Published){
+        if (status == Status.Published) {
             this.publishDate = new Date();
         }
     }
 
-    public static ArrayList<WordpressPage> doSort(ArrayList<WordpressPage> page){
+    public static ArrayList<WordpressPage> doSort(ArrayList<WordpressPage> page) {
 
-        ArrayList<WordpressPage> sortedList= new ArrayList<>();
+        ArrayList<WordpressPage> sortedList = new ArrayList<>();
+
+
+        while (page.size() > 0) {
+            WordpressPage small = page.get(0);
+
+            for (int i = 0; i < page.size(); i++) {
+
+                int result = small.title.compareTo(page.get(i).title);
+
+                if (result > 0) {
+                    small = page.get(i);
+                }
+
+            }
+            page.remove(small);
+            sortedList.add(small);
+        }
 
         return sortedList;
     }
