@@ -20,8 +20,10 @@ public class WordpressPage implements IPublish {
     WordpressPage child;
     WordpressPage parent;
     public int id = 1;
+    public WordpressVisibility visibility;
 
-    public WordpressPage(){}
+    public WordpressPage() {
+    }
 
     public WordpressPage(String title, String content) {
         pagecount++;
@@ -29,6 +31,7 @@ public class WordpressPage implements IPublish {
         this.id = pagecount;
         this.title = title;
         this.content = content;
+
 
     }
 
@@ -56,11 +59,10 @@ public class WordpressPage implements IPublish {
     }
 
 
-
     @Override
     public void unpublish() {
 
-        if(this.status == Status.Published){
+        if (this.status == Status.Published) {
             this.status = Status.Draft;
         }
 
